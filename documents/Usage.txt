@@ -1,0 +1,43 @@
+-------------------------
+Git location:
+
+
+-----------------------------------------------
+To use new utility:
+ 
+For usage in a Java program/Application
+=========================================
+ 
+Maven Dependency:
+ 
+        <dependency>
+          <groupId>com.rk</groupId>
+          <artifactId>encryption-utils</artifactId>
+          <version>2.0.0</version>
+        </dependency>
+                                
+Needed Code:                  
+import com.rk.encryptionutils.AESEncryptionUtils;
+AESEncryptionUtils encryptionUtils = new AESEncryptionUtils();
+ 
+To Encrypt Something (using AES 128 - using this for now as AES 192 and 256 require extra policy files installed on the server(s)):
+String encryptedString = encryptionUtils.encyptString("mystringtoencrypt");
+ 
+To Decrypt:
+String decryptedString = encryptionUtils.decryptString("myencryptedstring");
+ 
+ 
+For using from Command Line
+====================================
+You need the encryption-utils-2.0.0.jar file in your classpath.
+ 
+Usage:
+For Encryption: java com.rk.encryptionutils.AESEncryptionUtils encrypt mystringtoencrypt
+For Decryption: java com.rk.encryptionutils.AESEncryptionUtils decrypt mystringtodecrypt
+ 
+Example to get Usage:
+java -cp encryption-utils-.jar com.rk.encryptionutils.AESEncryptionUtils
+ 
+Examples of encrypting and decrypting:
+java -cp encryption-utils-.jar com.rk.encryptionutils.AESEncryptionUtils encrypt mystringtoencrypt
+java -cp encryption-utils-.jar com.rk.encryptionutils.AESEncryptionUtils decrypt j/HStEA/m3J6ej/QVWIKN77KOcNkDIToSFSxlDcQkGQ=

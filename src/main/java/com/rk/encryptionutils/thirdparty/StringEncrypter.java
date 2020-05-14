@@ -181,9 +181,12 @@ public class StringEncrypter
     catch (UnsupportedEncodingException e)
     {
     }
+    /**
+     * RSK 05/12/2020: Compile gives "warning: unreachable catch clause" - commenting out
     catch (IOException e)
     {
     }
+    */
     return null;
   }
 
@@ -219,9 +222,12 @@ public class StringEncrypter
     catch (UnsupportedEncodingException e)
     {
     }
+    /**
+     * RSK 05/12/2020: Compile gives "warning: unreachable catch clause" - commenting out
     catch (IOException e)
     {
     }
+    */
     return null;
   }
 

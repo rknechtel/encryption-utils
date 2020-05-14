@@ -1,0 +1,72 @@
+
+generateKey:
+generate the AES key
+save the AES key
+
+encrypt:
+load the AES key
+encrypt the text
+return the encrypted text
+
+decrypt:
+load the AES key
+decrypt the text
+return the decrypted text
+
+loadAESKey:
+loads the AES key
+
+saveAESKey:
+saves the AES key to filesystem
+
+--------------------------------
+
+
+byte[] encoded = pKey.getEncoded();
+String data = new BigInteger(1, encoded).toString(16);
+writeStringToFile(pFile, data);
+writeStringToFile(file, data, Charset.defaultCharset(), false);
+new FileOutputStream(file, append)
+output.write(data.getBytes(Charsets.toCharset(encoding)))
+
+encyptString()
+StringEncrypter aesEncrypt = new StringEncrypter(aesKey, aesKey.getAlgorithm());
+at:
+ecipher.init(Cipher.ENCRYPT_MODE, key);
+
+Throws:
+java.security.InvalidKeyException: Illegal key size or default parameters
+
+Caused by not having the unlimited security policy files in  ${jdk}/jre/lib/security
+
+----------------------
+
+http://www.exampledepot.com/taxonomy/term/267
+
+
+Posts: 2407
+
+Instead of CBC, use ECB. And, of course, don't print out the byte array, print out the string. 
+(And, again, don't use "new String(byte[])".)
+
+You can use AES-256 instead of AES-128 by using a 32 byte (= 256 bit) key instead of a 16 byte (= 128 bit) key.
+AES-192 presumably takes a 24 byte key.
+
+----------------------------------------
+
+Note: To do the AES 192 and 256 encryption requires the unlimited encryption policy files in $JRE_HOME/lib/security
+Ref: http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html
+Note: jars also in project under "securitypolicy" directory
+
+----------------------------
+
+Bouncy Castle Maven Repo
+http://central.maven.org/maven2/org/bouncycastle/
+
+----------------------------
+
+08/01/2019
+Converted to use JUnit instead of TestNG.
+Converted to build with both Gradle and Maven.
+
+-----------------------------

@@ -1,0 +1,62 @@
+
+On ALL the servers there is now a new tool for encrypting Plain Text passwords. 
+In the event a Developer wants to put an ID/Password into a configuration file you would use this tool.
+
+It is located in:
+D:\opt\Encryption
+
+There are two files in it:
+encryption-utils-2.0.0.jar
+EncryptPW.bat
+
+From command line just call:
+EncryptPW.bat
+
+This will give you the "Usage".
+
+[USAGE]: EncryptPW.bat arg1 arg2 arg3
+arg1 = Command (encrypt / decrypt / generatekey)
+arg2 = Password / KeyFileName (if generatekey)
+arg3 = Key File Length (Possible values: 128, 192, 256)
+Note: You must enclose any password to encrypt or decrypt in double Quotes
+       Example: "mypassword"
+
+
+Note: You MUST enclose the password to Encrypt or Decrypt in double quotes! 
+DOS has a nasty habit of converting special characters, like "=" to a " " (equal sign to a space).
+
+
+To Encrypt a plain text password call the script like this:
+EncryptPW.bat encrypt "mypasswordtoencrypt"
+
+This will output (the value after the ": " is the encrypted password):
+The Encrypted value of mypasswordtoencrypt is: vmGB5Cx1sA7CRYxKmxx+IF36sE+K8TyStrUx+DtBVGI=
+
+
+To Encrypt a plain text password using a specified Encryption Key File call the script like this:
+EncryptPW.bat encryptwithkey C:\temp\MySecretKeyFile.key "mypasswordtoencrypt"
+
+This will output (the value after the ": " is the encrypted password):
+The Encrypted value of mypasswordtoencrypt is: vmGB5Cx1sA7CRYxKmxx+IF36sE+K8TyStrUx+DtBVGI=
+
+
+To Decrypt a plain text password call the script like this (password below is the encrypted version of "mypasswordtoencrypt" from above):
+EncryptPW.bat decrypt "vmGB5Cx1sA7CRYxKmxx+IF36sE+K8TyStrUx+DtBVGI="
+
+This will output (the value after the ": " is the decrypted password):
+The Decrypted value of vmGB5Cx1sA7CRYxKmxx+IF36sE+K8TyStrUx+DtBVGI= is: mypasswordtoencrypt
+
+
+To Decrypt a plain text password using a specified Encryption Key File call the script like this (password below is the encrypted version of "mypasswordtoencrypt" from above):
+EncryptPW.bat decryptwithkey C:\temp\MySecretKeyFile.key "vmGB5Cx1sA7CRYxKmxx+IF36sE+K8TyStrUx+DtBVGI="
+
+This will output (the value after the ": " is the decrypted password):
+The Decrypted value of vmGB5Cx1sA7CRYxKmxx+IF36sE+K8TyStrUx+DtBVGI= is: mypasswordtoencrypt
+
+Note: The decrypted password should MATCH the plain text one that was originally encrypted.
+
+As a "check" when you encrypt a password I would call the decrypt also to verify the decrypted version of the encrypted password matches.
+
+To Generate your own AES Encrpytion Key (Key File) call the script like this (Possible values for the third argument: 128, 192, 256):
+EncryptPW.bat generatekey C:\temp\MySecretKeyFile.key 256
+
