@@ -96,6 +96,14 @@
 
 package com.rk.encryptionutils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.math.BigInteger;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -283,5 +291,61 @@ public class ChaCha20Poly1305 {
 
     return newSecretkey;
   } // End of geChaCha20Key()
+
+  /******************************************************************
+   * <pre>
+   * Method: saveChaCha20Key()
+   * Description: Will save an ChaCha20 encryption key to filesystem
+   * Example: C:\temp\myKeyFile.key
+   * </pre>
+   * 
+   * @param (SecretKey) pKey
+   * @param (File) pFile
+   * @throws IOException
+   ******************************************************************/
+  private void saveChaCha20Key(SecretKeySpec pKey, File pFile) throws IOException, FileNotFoundException
+  {
+    byte[] encoded = pKey.getEncoded();
+    String data = new BigInteger(1, encoded).toString(16);
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pFile, false));
+    out.writeObject(data);
+    out.flush();
+    out.close();
+
+  } // End of saveChaCha20Key()
+
+  /******************************************************************
+   * <pre>
+   * Method: loadChaCha20Key()
+   * Description: Will load an ChaCha20 key file from the filesystem
+   *              Example: C:\temp\myKeyFile.key
+   * </pre>
+   * 
+   * @param (String) pFile
+   * @return (SecretKey)
+   * @throws IOException
+   ****************************************************************/
+  public SecretKeySpec loadChaCha20Key(String pFile) throws IOException
+  {
+
+    String sKey = null;
+    FileInputStream fis = new FileInputStream(pFile);
+    ObjectInputStream ois = new ObjectInputStream(fis);
+
+    try
+    {
+      sKey = (String) ois.readObject();
+    }
+    catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
+    ois.close();
+
+    byte[] encoded = new BigInteger(sKey, 16).toByteArray();
+    SecretKeySpec key = new SecretKeySpec(encoded, "ChaCha20");
+
+    return key;
+  } // End of loadChaCha20Key()
 
 } // End of ChaCha20Poly1305
