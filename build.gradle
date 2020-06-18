@@ -50,7 +50,7 @@ dependencies {
     shadow localGroovy()
     shadow gradleApi()
 
-    compile 'log4j:log4j:1.2.17'
+    compile 'org.apache.logging.log4j:log4j:2.13.3'
     compile 'commons-io:commons-io:2.4'
     compile 'commons-codec:commons-codec:1.10'
     /* compile 'com.github.johnrengelman.shadow:5.2.0' */
