@@ -63,7 +63,7 @@ dependencies {
 
 
 group = 'com.rk'
-version = '2.0.0'
+version = '2.0.1'
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 
@@ -92,6 +92,10 @@ tasks.withType(JavaCompile) {
  */
 jar {
     baseName = 'encryption-utils'  
+    doFirst {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } 
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' 
     manifest {
         attributes(
             'Built-By'       : System.properties['user.name'],
@@ -115,6 +119,10 @@ jar {
  */
 task customFatJar(type: Jar) {  
     baseName = 'encryption-utils'
+    doFirst {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } } 
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' 
     manifest {
         attributes(
             'Built-By'       : System.properties['user.name'],

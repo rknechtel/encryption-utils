@@ -103,7 +103,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.math.BigInteger;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -274,7 +273,7 @@ public class ChaCha20Poly1305 {
 
   /************************************************************
    * <pre>
-   * Method: geChaCha20Key()
+   * Method: genChaCha20Key()
    * Description: Will create A ChaCha20 
    *              256-bit secret key (32 bytes)
    * </pre>
@@ -282,7 +281,7 @@ public class ChaCha20Poly1305 {
    * @return (SecretKeySpec)
    * @throws NoSuchAlgorithmException
    ***********************************************************/
-  public SecretKeySpec geChaCha20Key() throws NoSuchAlgorithmException 
+  public SecretKeySpec genChaCha20Key() throws NoSuchAlgorithmException 
   {
     KeyGenerator keyGen = KeyGenerator.getInstance("ChaCha20");
     keyGen.init(KEY_LEN, SecureRandom.getInstanceStrong());
@@ -290,7 +289,7 @@ public class ChaCha20Poly1305 {
     SecretKeySpec newSecretkey = new SecretKeySpec(secretKey.getEncoded(), "ChaCha20");
 
     return newSecretkey;
-  } // End of geChaCha20Key()
+  } // End of genChaCha20Key()
 
   /******************************************************************
    * <pre>
@@ -307,10 +306,25 @@ public class ChaCha20Poly1305 {
   {
     byte[] encoded = pKey.getEncoded();
     String data = new BigInteger(1, encoded).toString(16);
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pFile, false));
-    out.writeObject(data);
-    out.flush();
-    out.close();
+    ObjectOutputStream oos = null;
+
+    try 
+    {
+      oos = new ObjectOutputStream(new FileOutputStream(pFile, false));
+      oos.writeObject(data);
+      oos.flush();
+      oos.close();
+    } 
+    catch (Exception e) 
+    {
+      System.out.println("Error in saveChaCha20Key()");
+      e.printStackTrace();
+    }
+    finally
+    {
+      oos.close();
+    }
+
 
   } // End of saveChaCha20Key()
 
@@ -329,21 +343,31 @@ public class ChaCha20Poly1305 {
   {
 
     String sKey = null;
+    SecretKeySpec key = null;
     FileInputStream fis = new FileInputStream(pFile);
     ObjectInputStream ois = new ObjectInputStream(fis);
 
     try
     {
       sKey = (String) ois.readObject();
+      byte[] encoded = new BigInteger(sKey, 16).toByteArray();
+      key = new SecretKeySpec(encoded, "ChaCha20");
     }
-    catch (ClassNotFoundException e)
+    catch (ClassNotFoundException cnfe)
     {
+      System.out.println("Error - Class Not Found in loadChaCha20Key()");
+      cnfe.printStackTrace();
+    }
+    catch (Exception e)
+    {
+      System.out.println("Error in loadChaCha20Key()");
       e.printStackTrace();
     }
-    ois.close();
+    finally
+    {
+      ois.close();
+    }
 
-    byte[] encoded = new BigInteger(sKey, 16).toByteArray();
-    SecretKeySpec key = new SecretKeySpec(encoded, "ChaCha20");
 
     return key;
   } // End of loadChaCha20Key()
