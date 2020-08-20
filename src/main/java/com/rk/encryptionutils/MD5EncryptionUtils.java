@@ -6,12 +6,6 @@
  * </pre>
  * 
  * @beaninfo Description: Class with MD5 Encryption utilities
- *                       A Java implementation of the RSA Data Security, Inc. 
- *                       MD5 Message Digest Algorithm, as defined in RFC 1321. 
- *                       Based on the JavaScript implementation of Paul Johnston 
- *                       Copyright (C) Paul Johnston 1999 - 2000. 
- *                       See http://pajhome.org.uk/site/legal.html for details. 
- *                       Java Version by Thomas Weber (Orange Interactive GmbH)
  * 
  * @author rknechtel
  * @created Oct 8, 2012
@@ -25,6 +19,32 @@
  * 
  * 
  **********************************************************************************/
+/*********************************************************
+ * <pre>
+ *              LICENSE
+ *              
+ * This program is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU
+ * General Public License as published by  the Free
+ * Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will
+ * be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ * 
+ * You should have received a copy of the GNU General
+ * Public License along with this method; if not,
+ * write to the
+ * Free Software Foundation, Inc., 
+ * 675 Mass Ave,
+ * Cambridge, MA 02139, USA.
+ * Or on the web at:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * </pre>
+ *********************************************************/
 
 package com.rk.encryptionutils;
 
@@ -33,15 +53,16 @@ package com.rk.encryptionutils;
 // this object is used for data encryption
 public class MD5EncryptionUtils
 {
-  /*
-   * <pre>
-   * A Java implementation of the RSA Data Security, Inc. MD5 Message Digest Algorithm, as defined in RFC 1321. 
-   * Based on the JavaScript implementation of Paul
-   * Johnston Copyright (C) Paul Johnston 1999 - 2000. 
-   * See http://pajhome.org.uk/site/legal.html for details. 
-   * Java Version by Thomas Weber (Orange Interactive GmbH)
-   * </pre>
-   */
+/*********************************************************
+ * <pre>
+ * A Java implementation of the RSA Data Security, Inc. 
+ * MD5 Message Digest Algorithm, as defined in RFC 1321. 
+ * Based on the JavaScript implementation of Paul Johnston 
+ * Copyright (C) Paul Johnston 1999 - 2000. 
+ * See http://pajhome.org.uk/site/legal.html for details. 
+ * Java Version by Thomas Weber (Orange Interactive GmbH)
+ * </pre>
+ *********************************************************/
 
   /*
    * Convert a 32-bit number to a hex string with ls-byte first

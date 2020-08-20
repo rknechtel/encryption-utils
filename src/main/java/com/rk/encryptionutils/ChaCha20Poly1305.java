@@ -130,7 +130,7 @@ public class ChaCha20Poly1305 {
 
   private static BigInteger nonceCounter = NONCE_MIN_VAL;
 
-    /************************************************************
+  /************************************************************
    * <pre>
    * Method: encrypt()
    * Description: Will encrypt a passed in String using ChaCha20
@@ -173,7 +173,7 @@ public class ChaCha20Poly1305 {
     return cipherText;
   } // End of encrypt()
 
-    /************************************************************
+  /************************************************************
    * <pre>
    * Method: decrypt()
    * Description: This method Decrpyt a passed in String using 
