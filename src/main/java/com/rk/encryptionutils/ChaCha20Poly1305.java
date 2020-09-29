@@ -50,11 +50,13 @@
 /**
  * <pre>
 * General Info:
-* Chacha Cipher is a stream cipher which uses a 256-bit key and a 64-bit nonce [paper]. 
-* Currently AES has a virtual monopoly on secret key encryption. There would be major problems, 
-* though, if this was cracked. Along with this AES has been shown to be weak around cache-collision 
-* attacks. Google thus propose ChaCha20 as an alternative, and actively use it within TLS connections. 
-* Currently it is three times faster than software-enabled AES, and is not sensitive to timing attacks. 
+* Chacha Cipher is a stream cipher which uses a 256-bit key and a 64-bit nonce. 
+* Currently AES has a virtual monopoly on secret key encryption. 
+* There would be major problems, though, if this was cracked. Along with this AES 
+* has been shown to be weak around cache-collision attacks. Google thus propose 
+* ChaCha20 as an alternative, and actively use it within TLS connections. 
+* Currently it is three times faster than software-enabled AES, and is not 
+* sensitive to timing attacks. 
 * It operates by creating a key stream which is then X-ORed with the plaintext. 
 * It has been standardised with RFC 7539.
 * https://tools.ietf.org/html/rfc7539
