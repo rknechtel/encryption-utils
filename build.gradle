@@ -54,10 +54,10 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'commons-codec:commons-codec:1.10'
     /* compile 'com.github.johnrengelman.shadow:5.2.0' */
-    compile 'org.bouncycastle:bcprov-jdk15on:1.65'
+    compile 'org.bouncycastle:bcpFjunitrov-jdk15on:1.65'
     compile 'org.bouncycastle:bcpkix-jdk15on:1.65'
     compile 'org.bouncycastle:bcpg-jdk15on:1.65'
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13.1'
 	testCompile 'org.junit.jupiter:junit-jupiter-api:5.6.2'
 }
 
