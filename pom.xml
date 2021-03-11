@@ -204,20 +204,34 @@
 		</dependency>
 
 		<!-- Bouncy Castle Dependencies -->
+		<!--
+          * RSK 08/01/2019
+          * Updated bouncycastle dependancies from 1.49 to 1.62
+          * Per:
+          * Application dependency org.bouncycastle:bcprov-jdk15on-1.49 is vulnerable: 
+          * CVE-2018-1000613 CVE-2016-1000341 CVE-2016-1000352 CVE-2016-1000338 CVE-2016-1000339 CVE-2016-1000344. 
+          * Recommendation: use version 1.62
+          * RSK 03/10/2021
+          * Updated bouncycstle dependnacies from 1.62 to 1.68
+          * Per:
+          * CWE-327 - Use of a Broken or Risky Cryptographic Algorithm
+          * CVE-2018-5382 - Bouncy Castle BKS version 1 keystore (BKS-V1) files use an HMAC that is only 16 bits long, which can allow an attacker to compromise the integrity of a BKS-V1 keystore. All BKS-V1 keystores are vulnerable. Bouncy Castle release 1.47 introduces BKS version 2, which uses a 160-bit MAC.
+          * Recommendation: use version 1.68
+        -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
-			<version>1.65</version>
+			<version>1.68</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
-			<version>1.65</version>
+			<version>1.68</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpg-jdk15on</artifactId>
-			<version>1.65</version>
+			<version>1.68</version>
 		</dependency>
 
         <dependency>
