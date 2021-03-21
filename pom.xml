@@ -218,8 +218,8 @@
           * CWE-327 - Use of a Broken or Risky Cryptographic Algorithm
           * CVE-2018-5382 - Bouncy Castle BKS version 1 keystore (BKS-V1) files use an HMAC that is only 16 bits long, which can allow an attacker to compromise the integrity of a BKS-V1 keystore. All BKS-V1 keystores are vulnerable. Bouncy Castle release 1.47 introduces BKS version 2, which uses a 160-bit MAC.
           * Recommendation: use version 1.68
-		  * New Reccomended Long Tem Upgrade is 1.68.0.redhat-00001
-		  * Note: Requires the Maven Red Hat GA Repostory - https://maven.repository.redhat.com/ga/
+          * New Reccomended Long Tem Upgrade is 1.68.0.redhat-00001
+          * Note: Requires the Maven Red Hat GA Repostory - https://maven.repository.redhat.com/ga/
         -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
