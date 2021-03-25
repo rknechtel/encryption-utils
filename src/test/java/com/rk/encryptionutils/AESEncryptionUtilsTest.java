@@ -1,176 +1,299 @@
 package com.rk.encryptionutils;
 
-import javax.crypto.SecretKey;
-
 import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
 
 public class AESEncryptionUtilsTest
-{ 
-  
-  // Home:
-  private static String HOME_PATH="C:\\Projects_Java\\NewProjects";
-  private static String FULLPATHKEYFILE256 = HOME_PATH + "\\encryption-utils\\src\\test\\resources\\com\\rk\\encryptionutils\\keys\\aes256.key";
-  private static String FULLPATHKEYFILE192 = HOME_PATH + "\\encryption-utils\\src\\test\\resources\\com\\rk\\encryptionutils\\keys\\aes192.key";
-  private static String FULLPATHKEYFILE128 = HOME_PATH + "\\encryption-utils\\src\\test\\resources\\com\\rk\\encryptionutils\\keys\\aes128.key";
+{
+  private static String KEYFILE128 = "com/rk/encryptionutils/keys/aes128.key";
+  private static String KEYFILE192 = "com/rk/encryptionutils/keys/aes192.key";
+  private static String KEYFILE256 = "com/rk/encryptionutils/keys/aes256.key";
+  private static String TESTKEYFILE128 = "target/aes128.key";
+  private static String TESTKEYFILE192 = "target/aes192.key";
+  private static String TESTKEYFILE256 = "target/aes256.key";
+  private static String TESTUNENCRYPTEDPW = "testpw";
+  private static String TESTENCRYPTED128PW = "JNaxjdhahuWahZHPY/mOPw==";
+  private static String TESTENCRYPTED192PW = "QkXha6O8Y6SW3lKXqcJFdA==";
+  private static String TESTENCRYPTED256PW = "/sN86TsXEZQNBCdEaaHU1w==";
 
-  private static String KEYFILE256 = "/com/rk/encryptionutils/keys/aes256.key";
-  private static String KEYFILE192 = "/com/rk/encryptionutils/keys/aes192.key";
-  private static String KEYFILE128 = "/com/rk/encryptionutils/keys/aes128.key";  
   
-  @Test  
-  public void createKeyFileTest()
+  @Test
+  public void createKeyFile128Test()
   {
-    //AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
-    //boolean created = false;
+    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    boolean created = false;
     
     try
     {
-      //created = encryptUtils.createAESKeyFile(KEYFILE256, 256);
-      //created = encryptUtils.createAESKeyFile(KEYFILE192, 192);
-      //created = encryptUtils.createAESKeyFile(KEYFILE128, 128);
-      //assert(created == true);
+      created = encryptUtils.createAESKeyFile(TESTKEYFILE128, 128);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: getKeyFileTest() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: createKeyFile128Test() Error = " + e.getMessage());
     }
+
+    assertEquals(true, created);
    
-  } // End of Test getKeyFileTest()
+  } // End of Test createKeyFile128Test()
+
 
   @Test
-  public void encryptStringTest()
+  public void createKeyFile192Test()
   {
     AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    boolean created = false;
+    
     try
     {
-      String encryptedString128 = encryptUtils.encyptString("testpw");
-      assert(encryptedString128.equals("JNaxjdhahuWahZHPY/mOPw=="));
+      created = encryptUtils.createAESKeyFile(TESTKEYFILE192, 192);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: encryptStringTest() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: createKeyFile192Test() Error = " + e.getMessage());
+    }
+
+    assertEquals(true, created);
+
+  } // End of Test createKeyFile192Test()
+
+  @Test
+  public void createKeyFile256Test()
+  {
+    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    boolean created = false;
+    
+    try
+    {
+      created = encryptUtils.createAESKeyFile(TESTKEYFILE256, 256);
+    }
+    catch (Exception e)
+    {
+      System.out.println("AESEncryptionUtilsTest: createKeyFile256Test() Error = " + e.getMessage());
+    }
+
+    assertEquals(true, created);
+    
+  } // End of Test createKeyFile256Test()
+
+  @Test
+  public void encrypt128StringTest()
+  {
+    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String encryptedString128 = null;
+    try
+    {
+      encryptedString128 = encryptUtils.encyptString(TESTUNENCRYPTEDPW);
+    }
+    catch (Exception e)
+    {
+      System.out.println("AESEncryptionUtilsTest: encrypt128StringTest() Error = " + e.getMessage());
+    }
+    
+    if(encryptedString128 != null)
+    {
+      assertEquals(TESTENCRYPTED128PW, encryptedString128);
+    }
+    else 
+    {
+      assert(false);
     }
     
   } // End of Test encryptStringTest()
   
   @Test
-  public void encryptStringWithKeyTest1()
+  public void encrypt128StringWithKeyTest()
   {
     AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String encryptedString128 = null;
     try
     {
-      SecretKey key = encryptUtils.loadSecurityKey(KEYFILE128);
-      String encryptedString128 = encryptUtils.encyptString(key, "testpw");
-      assert(encryptedString128.equals("JNaxjdhahuWahZHPY/mOPw=="));
+      encryptedString128 = encryptUtils.encyptStringWithKey(TESTUNENCRYPTEDPW, KEYFILE128);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: encryptStringWithKeyTest1() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: encrypt128StringWithKeyTest() Error = " + e.getMessage());
+    }
+    
+    // Clean up
+    encryptUtils = null;
+
+    if(encryptedString128 != null)
+    {
+      assertEquals(TESTENCRYPTED128PW, encryptedString128);
+    }
+    else 
+    {
+      assert(false);
     }
 
-  } // End of Test encryptStringWithKeyTest1()
+  } // End of Test encrypt128StringWithKeyTest()
   
   @Test
-  public void encryptStringWithKeyTest2()
+  public void encrypt192StringWithKeyTest()
   {
     AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String encryptedString192 = null;
     try
     {
-      SecretKey key = encryptUtils.loadAESKey(FULLPATHKEYFILE128);
-      String encryptedString128 = encryptUtils.encyptString(key, "testpw");
-      assert(encryptedString128.equals("JNaxjdhahuWahZHPY/mOPw=="));
+      encryptedString192 = encryptUtils.encyptStringWithKey(TESTUNENCRYPTEDPW, KEYFILE192);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: encryptStringWithKeyTest2() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: encrypt192StringWithKeyTest() Error = " + e.getMessage());
     }
 
-  } // End of Test encryptStringWithKeyTest2()    
+    // Clean up
+    encryptUtils = null;
+
+    if(encryptedString192 != null)
+    {
+      assertEquals(TESTENCRYPTED192PW, encryptedString192);
+    }
+    else 
+    {
+      assert(false);
+    }
+
+  } // End of Test encrypt192StringWithKeyTest()
+
+  @Test
+  public void encrypt256StringWithKeyTest()
+  {
+    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String encryptedString256 = null;
+    try
+    {
+      encryptedString256 = encryptUtils.encyptStringWithKey(TESTUNENCRYPTEDPW, KEYFILE256);
+    }
+    catch (Exception e)
+    {
+      System.out.println("AESEncryptionUtilsTest: encrypt256StringWithKeyTest() Error = " + e.getMessage());
+    }
+
+    // Clean up
+    encryptUtils = null;
+
+    if(encryptedString256 != null)
+    {
+      assertEquals(TESTENCRYPTED256PW, encryptedString256);
+    }
+    else 
+    {
+      assert(false);
+    }
+
+  } // End of Test encrypt256StringWithKeyTest()
+
+  @Test
+  public void decrypt128StringTest()
+  {
+    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String decryptedString128 = null;
+    try
+    {
+      decryptedString128 = encryptUtils.decryptString(TESTENCRYPTED128PW);
+    }
+    catch (Exception e)
+    {
+      System.out.println("AESEncryptionUtilsTest: decrypt128StringTest() Error = " + e.getMessage());
+    }
+
+    // Clean up
+    encryptUtils = null;
+
+    if(decryptedString128 != null)
+    {
+      assertEquals(TESTUNENCRYPTEDPW, decryptedString128);
+    }
+    else 
+    {
+      assert(false);
+    }
+
+  } // End of Test decrypt128StringTest()
   
   @Test
-  public void encryptStringWithKeyTest3()
+  public void decrypt128StringWithKeyTest()
   {
     AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String decryptedString128 = null;
     try
     {
-      String encryptedString128 = encryptUtils.encyptString(FULLPATHKEYFILE128, "testpw");
-      assert(encryptedString128.equals("JNaxjdhahuWahZHPY/mOPw=="));
+      decryptedString128 = encryptUtils.decryptStringWithKey(TESTENCRYPTED128PW, KEYFILE128);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: encryptStringWithKeyTest3() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: decrypt128StringWithKeyTest() Error = " + e.getMessage());
     }
 
-  } // End of Test encryptStringWithKeyTest3()   
-  
-  @Test  
-  public void decryptStringTest()
+    // Clean up
+    encryptUtils = null;
+
+    if(decryptedString128 != null)
+    {
+      assertEquals(TESTUNENCRYPTEDPW, decryptedString128);
+    }
+    else 
+    {
+      assert(false);
+    } 
+
+  } // End of Test decrypt128StringWithKeyTest()  
+
+  @Test
+  public void decrypt192StringWithKeyTest()
   {
     AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    String decryptedString192 = null;
     try
     {
-      String decryptedString128 = encryptUtils.decryptString("JNaxjdhahuWahZHPY/mOPw==");
-      assert(decryptedString128.equals("testpw"));    
+      decryptedString192 = encryptUtils.decryptStringWithKey(TESTENCRYPTED192PW, KEYFILE192);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: decryptStringTest() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: decrypt1292tringWithKeyTest() Error = " + e.getMessage());
     }
 
-  } // End of Test decryptStringTest()  
-  
-  @Test  
-  public void decryptStringWithKeyTest1()
+    // Clean up
+    encryptUtils = null;
+
+    if(decryptedString192 != null)
+    {
+      assertEquals(TESTUNENCRYPTEDPW, decryptedString192);
+    }
+    else 
+    {
+      assert(false);
+    } 
+
+  } // End of Test decrypt192StringWithKeyTest()  
+
+  @Test
+  public void decrypt256StringWithKeyTest()
   {
     AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
-
+    String decryptedString256 = null;
     try
     {
-      SecretKey key = encryptUtils.loadSecurityKey(KEYFILE128);      
-      String decryptedString128 = encryptUtils.decryptString(key, "JNaxjdhahuWahZHPY/mOPw==");
-      assert(decryptedString128.equals("testpw"));      
+      decryptedString256 = encryptUtils.decryptStringWithKey(TESTENCRYPTED256PW, KEYFILE256);
     }
     catch (Exception e)
     {
-      System.out.println("AESEncryptionUtilsTest: decryptStringWithKeyTest1() Error = " + e.getMessage());
+      System.out.println("AESEncryptionUtilsTest: decrypt256StringWithKeyTest() Error = " + e.getMessage());
     }
 
-  } // End of Test decryptStringWithKeyTest1()
-  
-  @Test  
-  public void decryptStringWithKeyTest2()
-  {
-    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+    // Clean up
+    encryptUtils = null;
 
-    try
+    if(decryptedString256 != null)
     {
-      SecretKey key = encryptUtils.loadAESKey(FULLPATHKEYFILE128);     
-      String decryptedString128 = encryptUtils.decryptString(key, "JNaxjdhahuWahZHPY/mOPw==");
-      assert(decryptedString128.equals("testpw"));      
+      assertEquals(TESTUNENCRYPTEDPW, decryptedString256);
     }
-    catch (Exception e)
+    else 
     {
-      System.out.println("AESEncryptionUtilsTest: decryptStringWithKeyTest2() Error = " + e.getMessage());
-    }
+      assert(false);
+    } 
 
-  } // End of Test decryptStringWithKeyTest2()  
-  
-  @Test  
-  public void decryptStringWithKeyTest3()
-  {
-    AESEncryptionUtils encryptUtils = new AESEncryptionUtils();
+  } // End of Test decrypt256StringWithKeyTest()  
 
-    try
-    {   
-      String decryptedString128 = encryptUtils.decryptString(FULLPATHKEYFILE128, "JNaxjdhahuWahZHPY/mOPw==");
-      assert(decryptedString128.equals("testpw"));      
-    }
-    catch (Exception e)
-    {
-      System.out.println("AESEncryptionUtilsTest: decryptStringWithKeyTest3() Error = " + e.getMessage());
-    }
-
-  } // End of Test decryptStringWithKeyTest3()  
-  
-}
+} // End of Class AESEncryptionUtilsTest

@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -59,6 +60,8 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+import com.rk.encryptionutils.utils.FileResourcesUtils;
 
 import com.rk.encryptionutils.thirdparty.StringEncrypter;
 
@@ -189,6 +192,7 @@ public class AESEncryptionUtils
     return encryptedValue;
   } // End of encyptString()
 
+
   /************************************************************
    * <pre>
    * Method: encyptString()
@@ -219,6 +223,44 @@ public class AESEncryptionUtils
 
     return encryptedValue;
   } // End of encyptString()
+
+      /***************************************************************************************************
+     * <pre>
+     * Method: encyptStringWithKey()
+     * Description: Will return an encrypted a string with a passed in keyfile (path and filename).
+     * </pre>
+     * 
+     * @param (String) pValue
+     * @param (String) pKeyFile
+     * @return (String)
+     **************************************************************************************************/
+    public String encyptStringWithKey(String pValue, String pKeyFile)
+    {
+        String encryptedValue = null;
+        SecretKey aesKey = null;
+
+        try
+        {
+            aesKey = loadAESKey(pKeyFile);
+            if(aesKey != null)
+            {
+              StringEncrypter aesEncrypt = new StringEncrypter(aesKey, aesKey.getAlgorithm());
+              encryptedValue = aesEncrypt.encrypt(pValue);
+            }
+        }
+        catch(IOException ioe)
+        {
+            System.out.println("AESEncryptionUtils: encyptStringWithKey() IOException - Error = " + ioe.getMessage());
+            ioe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            System.out.println("AESEncryptionUtils: encyptStringWithKey() Exception - Error = " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return encryptedValue;
+      } // End of encyptStringWithKey()
 
   /*****************************************************
    * <pre>
@@ -319,6 +361,44 @@ public class AESEncryptionUtils
     return decryptedString;
   } // End of decryptString()
 
+      /***********************************************************************************************
+     * <pre>
+     * Method: decryptStringWithKey()
+     * Description: This will decrpyt a string with a passed in keyfile (path and filename).
+     * </pre>
+     * 
+     * @param (String) pEncryptedString
+     * @param (String) pKeyFile
+     * @return (String)
+     ***********************************************************************************************/
+    public String decryptStringWithKey(String pEncryptedString, String pKeyFile)
+    {
+        String decryptedString = null;
+        SecretKey aesKey = null;
+
+        try
+        {
+            aesKey = loadAESKey(pKeyFile);
+            if(aesKey != null)
+            {
+              StringEncrypter aesEncrypt = new StringEncrypter(aesKey, aesKey.getAlgorithm());
+              decryptedString = aesEncrypt.decrypt(pEncryptedString);
+            }
+        }
+        catch(IOException ioe)
+        {
+            System.out.println("AESEncryptionUtils: decryptStringWithKey() IOException - Error = " + ioe.getMessage());
+            ioe.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            System.out.println("AESEncryptionUtils: decryptStringWithKey() Exception - Error = " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return decryptedString;
+      } // End of decryptStringWithKey()
+  
   /*************************************************************
    * <pre>
    * Method: loadSecurityKey()
@@ -363,28 +443,34 @@ public class AESEncryptionUtils
    * 
    * @param (String) pFile
    * @return (SecretKey)
-   * @throws IOException
+   * @throws Exception
    ****************************************************************/
-  public SecretKey loadAESKey(String pFile) throws IOException
+  public SecretKey loadAESKey(String pFile) throws Exception
   {
-
+    SecretKey key = null;
     String sKey = null;
-    FileInputStream fis = new FileInputStream(pFile);
-
-    ObjectInputStream ois = new ObjectInputStream(fis);
+    FileResourcesUtils fru = new FileResourcesUtils();
     try
     {
-      sKey = (String) ois.readObject();
+        InputStream keyIS = fru.getFileFromResourceAsStream(pFile);
+        //InputStream keyIS = new FileInputStream(pFile);
+        ObjectInputStream ois = new ObjectInputStream(keyIS);
+        sKey = (String) ois.readObject();
+        ois.close();
+        //keyIS.close();
+        byte[] encoded = new BigInteger(sKey, 16).toByteArray();
+        key = new SecretKeySpec(encoded, "AES");
     }
-    catch (ClassNotFoundException e)
+    catch(Exception e)
     {
-      e.printStackTrace();
+        String msg = "AESEncryptionUtils: loadAESKey() - Error = " + e.getMessage();
+        System.out.println(msg);
+        e.printStackTrace();
+        throw new Exception(msg);
     }
-    ois.close();
 
-    byte[] encoded = new BigInteger(sKey, 16).toByteArray();
-    SecretKey key = new SecretKeySpec(encoded, "AES");
     return key;
+
   } // End of loadAESKey()
 
   /************************************************************

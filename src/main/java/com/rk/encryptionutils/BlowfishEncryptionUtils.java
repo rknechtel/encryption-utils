@@ -51,6 +51,7 @@ package com.rk.encryptionutils;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -62,6 +63,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 import org.apache.commons.codec.binary.Base64;
+
+import com.rk.encryptionutils.utils.FileResourcesUtils;
 
 public class BlowfishEncryptionUtils
 {
@@ -386,10 +389,11 @@ public class BlowfishEncryptionUtils
   private SecretKey getKeyFile(String pKeyToRead)
   {
     SecretKey key = null;
-    ObjectInputStream keyFile;
+    FileResourcesUtils fru = new FileResourcesUtils();
     try
     {
-      keyFile = new ObjectInputStream(new FileInputStream(pKeyToRead));
+      InputStream keyIS = fru.getFileFromResourceAsStream(pKeyToRead);
+      ObjectInputStream keyFile = new ObjectInputStream(keyIS);
       key = (SecretKey) keyFile.readObject();
       keyFile.close();
     }
